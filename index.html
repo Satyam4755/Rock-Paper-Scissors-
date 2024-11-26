@@ -5,219 +5,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissor Game</title>
-</head>
-<style>
-    body {
-        background-color: darkblue;
-        padding-left: 500px;
-        padding-top: 100px;
-    }
+    <style>
+        body {
+            background-color: darkblue;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-    .heading {
-        color: rgb(198, 198, 5);
-        z-index: -3;
-    }
+        .heading h1 {
+            color: rgb(198, 198, 5);
+            text-align: center;
+        }
 
-    .starting {
-        position: absolute;
-        top: 20%;
-        left: 35%;
-        z-index: 1;
+        .starting {
+            margin-top: 20px;
+        }
 
         #starting {
-            position: absolute;
-            left: 50%;
-            top: 50px;
-            width: 120px;
             background-color: beige;
             color: maroon;
             font-size: large;
-            border-style: none;
+            border: none;
             border-radius: 10px;
-            padding: 5px;
+            padding: 10px 20px;
             box-shadow: 1px 1px 10px rgb(0, 0, 0);
+            cursor: pointer;
         }
-        #starting:hover{
+
+        #starting:hover {
             font-size: larger;
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         }
-    }
 
-    .GameStarted {
-        position: absolute;
-        z-index: -1;
-        filter: opacity(0%);
-        border: 5px solid wheat;
-        border-radius: 5px;
-        background-color: rgb(236, 203, 12);
-        /* display: flex; */
-        padding: 10px;
-        /* gap: 20px; */
-        box-shadow: 1px 1px 20px rgb(246, 255, 0);
-
-        .subHeading {
-            color: darkblue;
+        .GameStarted {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border: 5px solid wheat;
+            border-radius: 10px;
+            background-color: rgb(236, 203, 12);
+            padding: 20px;
+            box-shadow: 1px 1px 20px rgb(246, 255, 0);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
         }
 
         .buttons {
-            height: 50px;
             display: flex;
-            gap: 50px;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
         }
 
         .OptionButton {
-
-            /* flex-direction: column; */
             background-color: beige;
-            font-family:fantasy;
+            font-family: fantasy;
             color: maroon;
-            font-size: large;
-            border-style: none;
+            font-size: medium;
+            border: none;
             border-radius: 10px;
-            padding: 5px;
+            padding: 10px 20px;
             box-shadow: 1px 1px 10px rgb(0, 26, 255);
-
+            cursor: pointer;
         }
 
         .OptionButton:hover {
-            font-size:larger;
-
+            font-size: larger;
         }
-    }
 
-    #exit:hover {
-        font-size: larger;
-        box-shadow: 1px 1px 10px lightgreen;
-    }
-
-    .scoring {
-        display: flex;
-        gap: 20px;
-        justify-content: space-between;
+        .scoring {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+        }
 
         .Score {
             box-shadow: 1px 1px 10px rgb(234, 255, 0);
             padding: 10px;
-            font-size: large;
+            font-size: medium;
             border-radius: 10px;
             border-style: groove;
             background-color: blueviolet;
             color: greenyellow;
+            flex: 1;
+            text-align: center;
+        }
 
-            .s2 {
-                color: red;
+        @media (max-width: 600px) {
+            .OptionButton {
+                padding: 10px;
+                font-size: small;
+            }
+
+            .Score {
+                font-size: small;
             }
         }
-    }
-</style>
+    </style>
+</head>
 
 <body>
     <div class="heading">
-        <h1>
-            Rock Paper Scissor Game
-        </h1>
+        <h1>Rock Paper Scissor Game</h1>
     </div>
     <div class="starting">
         <button id="starting" onclick="start()">Click to start</button>
     </div>
     <div class="GameStarted" id="GameStarted">
         <div class="subHeading">
-            <h2>
-                click on any one button to play your chance
-            </h2> <br>
-            <hr>
+            <h2>Click on any one button to play your chance</h2>
         </div>
         <div class="buttons">
             <button class="OptionButton">Rock</button>
             <button class="OptionButton">Paper</button>
             <button class="OptionButton">Scissor</button>
-            <hr>
             <button id="exit" class="OptionButton">Exit</button>
         </div>
-        <hr>
         <div class="scoring">
             <div id="userScore" class="Score s1">0</div>
             <div id="statement" class="Score s2">____</div>
-
             <div id="ComputerScore" class="Score s3">0</div>
         </div>
-        
     </div>
     <script>
-        let starting = document.getElementById("starting")
-        let GameStarted = document.getElementById("GameStarted")
-        // for statement
-        let Scoring = document.getElementById("statement")
-        // for computer score
-        let CompValue = document.getElementById("ComputerScore")
-        // for user score
-        let UserValue = document.getElementById("userScore")
-        let Compscore = 0
-        let UserScore = 0
+        let starting = document.getElementById("starting");
+        let GameStarted = document.getElementById("GameStarted");
+        let Scoring = document.getElementById("statement");
+        let CompValue = document.getElementById("ComputerScore");
+        let UserValue = document.getElementById("userScore");
+        let Compscore = 0;
+        let UserScore = 0;
+
         function start() {
-            starting.style = "z-index: -2; filter:opacity(0%);"
-            GameStarted.style = "z-index: 1;filter:opacity(100%);"
-            Scoring.textContent = "____"
-            CompValue.textContent = "0"
-            UserValue.textContent = "0"
+            starting.style.display = "none";
+            GameStarted.style.display = "flex";
+            Scoring.textContent = "____";
+            CompValue.textContent = "0";
+            UserValue.textContent = "0";
         }
-        let OptionButton = document.querySelectorAll(".OptionButton")
+
+        let OptionButton = document.querySelectorAll(".OptionButton");
         OptionButton.forEach(Button => {
             Button.addEventListener('click', () => {
-                let CompChoice = parseInt(Math.random() * 4)
-                // while (Button.textContent!="Exit") {
+                let CompChoice = parseInt(Math.random() * 4);
                 if (Button.textContent === "Rock") {
-                    if (CompChoice == 1) {
-                        Scoring.textContent = "Draw"
+                    if (CompChoice === 1) {
+                        Scoring.textContent = "Draw";
+                    } else if (CompChoice === 2) {
+                        Scoring.textContent = "Computer Wins";
+                        Compscore += 10;
+                        CompValue.textContent = Compscore;
+                    } else {
+                        Scoring.textContent = "You Win";
+                        UserScore += 10;
+                        UserValue.textContent = UserScore;
                     }
-                    else if (CompChoice == 2) {
-                        Scoring.textContent = "computer wins"
-                        Compscore += 10
-                        CompValue.textContent = Compscore
+                } else if (Button.textContent === "Paper") {
+                    if (CompChoice === 1) {
+                        Scoring.textContent = "You Win";
+                        UserScore += 10;
+                        UserValue.textContent = UserScore;
+                    } else if (CompChoice === 2) {
+                        Scoring.textContent = "Draw";
+                    } else {
+                        Scoring.textContent = "Computer Wins";
+                        Compscore += 10;
+                        CompValue.textContent = Compscore;
                     }
-                    else if (CompChoice == 3) {
-                        Scoring.textContent = "you wins"
-                        UserScore += 10
-                        UserValue.textContent = UserScore
+                } else if (Button.textContent === "Scissor") {
+                    if (CompChoice === 1) {
+                        Scoring.textContent = "Computer Wins";
+                        Compscore += 10;
+                        CompValue.textContent = Compscore;
+                    } else if (CompChoice === 2) {
+                        Scoring.textContent = "You Win";
+                        UserScore += 10;
+                        UserValue.textContent = UserScore;
+                    } else {
+                        Scoring.textContent = "Draw";
                     }
+                } else if (Button.textContent === "Exit") {
+                    starting.style.display = "block";
+                    GameStarted.style.display = "none";
                 }
-                else if (Button.textContent === "Paper") {
-                    if (CompChoice == 1) {
-                        Scoring.textContent = "you wins"
-                        UserScore += 10
-                        UserValue.textContent = UserScore
-                    }
-                    else if (CompChoice == 2) {
-                        Scoring.textContent = "Draw"
-                    }
-                    else if (CompChoice == 3) {
-                        Scoring.textContent = "computer wins"
-                        Compscore += 10
-                        CompValue.textContent = Compscore
-                    }
-                }
-                else if (Button.textContent === "Scissor") {
-                    if (CompChoice == 1) {
-                        Scoring.textContent = "computer wins"
-                        Compscore += 10
-                        CompValue.textContent = Compscore
-                    }
-                    else if (CompChoice == 2) {
-                        Scoring.textContent = "you wins"
-                        UserScore += 10
-                        UserValue.textContent = UserScore
-                    }
-                    else if (CompChoice == 3) {
-                        Scoring.textContent = "Draw"
-                    }
-                }
-                else if (Button.textContent === "Exit") {
-                    starting.style = "z-index: -1; filter:opacity(100%);"
-                    GameStarted.style = "z-index: -2;filter:opacity(0%);"
-                }
-            })
-        })
-
+            });
+        });
     </script>
 </body>
 
